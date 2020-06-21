@@ -11,3 +11,9 @@
 .all-window{
     -fx-background-color: radial-gradient(radius 50%, #B2FEFA, #0ED2F7);
 }
+.scroll-pane{
+	-fx-background-color:transparent;
+}
+.scroll-pane .viewport{
+	-fx-background-color:transparent;
+}
