@@ -11,7 +11,7 @@ import java.util.Observer;
 public class MyViewModel extends Observable implements Observer {
 
     private IModel model;
-
+    //msg
     public MyViewModel(IModel model)
     {
         this.model = model;
