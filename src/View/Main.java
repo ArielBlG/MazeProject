@@ -52,6 +52,7 @@ public class Main extends Application {
 
         stage.setScene(scene);
         stage.show();
+        System.out.println("game began");
     }
     @Override
     public void stop(){
