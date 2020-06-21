@@ -38,11 +38,16 @@ public class MazeDisplay extends Canvas {
     StringProperty sound_wall = new SimpleStringProperty();
     StringProperty sound_walking = new SimpleStringProperty();
     StringProperty wallImagesFolder = new SimpleStringProperty();
+    StringProperty targetImg = new SimpleStringProperty();
+    StringProperty startImg = new SimpleStringProperty();
+
 
 
     private Image[] wallImages;
     private int[][] wallImagesAssignment;
     private Image avatar;
+    private Image target;
+    private Image start;
 
     public int getRow_player() {
         return row_player;
@@ -54,6 +59,15 @@ public class MazeDisplay extends Canvas {
     public String getWallImagesFolder() {
         return wallImagesFolder.get();
     }
+
+    public String getTargetImg(){return targetImg.get();}
+
+    public void setTargetImg(String target){this.targetImg.set(target);};
+
+    public String getStartImg(){return startImg.get();}
+
+    public void setStartImg(String start){this.startImg.set(start);};
+
 
     public void setPlayerPosition(int row,int col){
         AudioClip player;
@@ -84,6 +98,17 @@ public class MazeDisplay extends Canvas {
 
             this.wallImages = new Image[new File(this.getWallImagesFolder()).list().length];
             this.wallImagesAssignment = new int[this.maze.getRowSize()][this.maze.getColSize()];
+            try {
+                this.target = new Image(new FileInputStream(this.getTargetImg()));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                this.start = new Image(new FileInputStream(this.getStartImg()));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
 
             for(int i = 0; i < wallImages.length;i++)
             {
@@ -129,33 +154,24 @@ public class MazeDisplay extends Canvas {
                 {
                     if(i == row_start && j == col_start){
                         h = i * cellHeight;
-                        w = j * cellWidth;
-                        graphicsContext.setFill(Color.GREEN);
-                        graphicsContext.fillRect(w,h,cellWidth,cellHeight);
+                        w = j * cellWidth;;
+                        graphicsContext.drawImage(this.start,w,h,cellWidth,cellHeight);
                         continue;
                     }
                     if(i == row_end && j == col_end){
                         h = i * cellHeight;
                         w = j * cellWidth;
-                        graphicsContext.setFill(Color.VIOLET);
-                        graphicsContext.fillRect(w,h,cellWidth,cellHeight);
+                        graphicsContext.drawImage(this.target,w,h,cellWidth,cellHeight);
                         continue;
                     }
                     if(maze_arr[i][j] == 1) // Wall
                     {
                         h = i * cellHeight;
                         w = j * cellWidth;
-                        graphicsContext.setFill(Color.RED);
                         graphicsContext.drawImage(this.wallImages[this.wallImagesAssignment[i][j]],w,h,cellWidth,cellHeight);
                     }
                     else {
-                        if (!flag || maze_arr[i][j] == 0) {
-                            h = i * cellHeight;
-                            w = j * cellWidth;
-                            graphicsContext.setFill(Color.TRANSPARENT);
-                            graphicsContext.fillRect(w, h, cellWidth, cellHeight);
-                        }
-                        else {
+                        if (!(!flag || maze_arr[i][j] == 0)) {
                             h = i * cellHeight;
                             w = j * cellWidth;
                             graphicsContext.setFill(Color.TEAL);
@@ -171,7 +187,7 @@ public class MazeDisplay extends Canvas {
 
                     graphicsContext.setFill(Color.GOLD);
                     graphicsContext.fillRect(w_player, h_player, cellWidth, cellHeight);
-                    // handle_winning();
+
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Winning screen");
                     alert.setHeaderText(null);

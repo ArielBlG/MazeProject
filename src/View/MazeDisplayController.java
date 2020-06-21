@@ -17,6 +17,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.stage.Screen;
@@ -30,6 +31,7 @@ import java.util.Observable;
 public class MazeDisplayController implements IView {
     @FXML
     public MazeDisplay mazeDisplay;
+    public ScrollPane scrollpane;
     private Solution solution;
     private MyViewModel myViewModel;
     private Timeline timeline = new Timeline();
@@ -37,6 +39,9 @@ public class MazeDisplayController implements IView {
 
     StringProperty update_player_position_row = new SimpleStringProperty();
     StringProperty update_player_position_col = new SimpleStringProperty();
+
+
+
 
     private Clip wall_sound;
 
@@ -49,9 +54,12 @@ public class MazeDisplayController implements IView {
         Main.getStage().setY((screenBounds.getHeight() - Main.getStage().getHeight()) / 2);
         MyViewController myViewController = fxmlLoader.getController();
         myViewController.changeViews();
+
     }
 
     public void drawMaze(Maze maze,boolean flag) {
+        scrollpane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollpane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         mazeDisplay.drawMaze(maze,flag);
     }
 
@@ -175,9 +183,19 @@ public class MazeDisplayController implements IView {
             } else if (event.getDeltaY() < 0) {
                 m_zoom = 1.1/ m_zoom;
             }
-            zoom(mazeDisplay, m_zoom, event.getSceneX(), event.getSceneY());
-            mazeDisplay.setScaleX(mazeDisplay.getScaleX() * m_zoom);
-            mazeDisplay.setScaleY(mazeDisplay.getScaleY() * m_zoom);
+            if (mazeDisplay.getScaleX() * m_zoom <0.9)
+            {
+                mazeDisplay.setScaleX(1);
+                mazeDisplay.setScaleY(1);
+                mazeDisplay.setTranslateX(0);
+                mazeDisplay.setTranslateY(0);
+            }
+            else
+            {
+                zoom(mazeDisplay, m_zoom, event.getSceneX(), event.getSceneY());
+                mazeDisplay.setScaleX(mazeDisplay.getScaleX() * m_zoom);
+                mazeDisplay.setScaleY(mazeDisplay.getScaleY() * m_zoom);
+            }
             event.consume();// event handling from the root
         }
     }
