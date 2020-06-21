@@ -91,7 +91,7 @@
     <center>
         <Pane fx:id="pane" BorderPane.alignment="CENTER" stylesheets="@./style.css" styleClass="Pane">
             <children>
-                <MazeDisplay fx:id="mazeDisplay" wallImagesFolder="./src/Resources/Images/Walls" width="${pane.width}" height="${pane.height}"  />
+                <MazeDisplay fx:id="mazeDisplay" wallImagesFolder="./src/Resources/Images/Walls" width="${pane.width}" height="${pane.height}"  onScroll="#Zoom" />
             </children>
             <padding>
                 <Insets bottom="100.0" left="100.0" right="100.0" top="100.0" />

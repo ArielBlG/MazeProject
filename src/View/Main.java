@@ -12,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Observer;
 import Server.ServerStrategyGenerateMaze;
 import Server.ServerStrategySolveSearchProblem;
@@ -27,13 +26,13 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-         maze_generator_server = new Server(5400, 100000, new ServerStrategyGenerateMaze());
-         solve_maze_server = new Server(5401, 1000000000, new ServerStrategySolveSearchProblem());
+        maze_generator_server = new Server(5400, 100000, new ServerStrategyGenerateMaze());
+        solve_maze_server = new Server(5401, 1000000000, new ServerStrategySolveSearchProblem());
         maze_generator_server.start();
         solve_maze_server.start();
         stage = primaryStage;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("MyView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("./MyView.fxml"));
         Parent root = loader.load();
         stage.setTitle("Itzik and Ariel Maze Game");
         scene = new Scene(root);
@@ -58,6 +57,7 @@ public class Main extends Application {
     public void stop(){
         maze_generator_server.stop();
         solve_maze_server.stop();
+        System.exit(0);
     }
     public static Stage getStage(){
         return stage;
@@ -75,9 +75,15 @@ public class Main extends Application {
         Parent root = fxmlLoader.load();
         IView mazeView = fxmlLoader.getController();
         mazeView.addViewModel(myViewModel);
-        myViewModel.addObserver(mazeView);
+        myViewModel.addObserver((Observer) mazeView);
         stage.setScene(new Scene(root));
         stage.setMaximized(true);
         return fxmlLoader;
+    }
+
+    public static void exitProgram(){
+
+        stage.close();
+
     }
 }

@@ -26,8 +26,9 @@ import javax.sound.sampled.Clip;
 import java.io.IOException;
 import java.sql.Time;
 import java.util.Observable;
+import java.util.Observer;
 
-public class MazeDisplayController implements IView {
+public class MazeDisplayController implements IView, Observer {
     @FXML
     public MazeDisplay mazeDisplay;
     private Solution solution;
@@ -101,9 +102,10 @@ public class MazeDisplayController implements IView {
                 set_update_player_position_col(player_col_position+1 +"");
                 break;
             case H:
-                this.solution = myViewModel.getSolution(mazeDisplay.getMaze());
-                mazeDisplay.setSolutionOnMaze(solution);
-                mazeDisplay.drawMaze(mazeDisplay.getMaze(),true);
+                //this.solution = myViewModel.getSolution(mazeDisplay.getMaze());
+                myViewModel.generateSolutionObserver(mazeDisplay.getMaze());
+                this.solution = myViewModel.getSolution();
+                this.handleSolution();
                 break;
         }
 
@@ -119,12 +121,19 @@ public class MazeDisplayController implements IView {
     }
 
     public void showSolution(ActionEvent actionEvent) {
-       this.solution = myViewModel.getSolution(mazeDisplay.getMaze());
-       mazeDisplay.setSolutionOnMaze(solution);
-       mazeDisplay.drawMaze(mazeDisplay.getMaze(),true);
+//       this.solution = myViewModel.getSolution(mazeDisplay.getMaze());
+//       mazeDisplay.setSolutionOnMaze(solution);
+//       mazeDisplay.drawMaze(mazeDisplay.getMaze(),true);
+        myViewModel.generateSolutionObserver(mazeDisplay.getMaze());
+        this.solution = myViewModel.getSolution();
+        this.handleSolution();
     }
 
+    private void handleSolution(){
 
+        mazeDisplay.setSolutionOnMaze(solution);
+        mazeDisplay.drawMaze(mazeDisplay.getMaze(),true);
+    }
     @Override
     public void handleGenerateMaze() throws IOException {
 
@@ -136,8 +145,21 @@ public class MazeDisplayController implements IView {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
+    public void exitProgram() {
+        Main.exitProgram();
+    }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        if(o instanceof MyViewModel){
+            switch ((String)arg){
+                case "SolveGenerate":
+                    this.solution = myViewModel.getSolution();
+                    mazeDisplay.setSolutionOnMaze(solution);
+                    mazeDisplay.drawMaze(mazeDisplay.getMaze(),true);
+                    break;
+            }
+        }
     }
 
     public void setAvatar(String avatar) {
@@ -166,6 +188,7 @@ public class MazeDisplayController implements IView {
     }
 
     public void Zoom(ScrollEvent event) {
+        //added zoom
         double m_zoom;
         if (event.isControlDown()) {
             m_zoom = 1.5;

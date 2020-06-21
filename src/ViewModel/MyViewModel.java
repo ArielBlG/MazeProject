@@ -11,34 +11,48 @@ import java.util.Observer;
 public class MyViewModel extends Observable implements Observer {
 
     private IModel model;
+    private Maze maze;
+    private Solution solution;
     //msg
     public MyViewModel(IModel model)
     {
         this.model = model;
+        this.model.assignObserver(this);
     }
     @Override
     public void update(Observable o, Object arg) {
+            if(o instanceof IModel){
+                switch ((String)arg){
+                    case "MazeGenerate":
+                        this.maze = model.getMaze();
+                        setChanged();
+                        notifyObservers("MazeGenerate");
+
+                        break;
+                    case "SolveGenerate":
+                        this.solution = model.getSolution();
+                        setChanged();
+                        notifyObservers("SolveGenerate");
+                        break;
+                }
+            }
+    }
+
+    public void generateMazeObserver(int row, int col) throws UnknownHostException {
+        model.GeneratorClient(row,col);
 
     }
-
-    public Maze generateMaze(int row, int col)  {
-        try {
-            return model.createGeneratorClient(row, col);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public void generateSolutionObserver(Maze maze){
+        model.SolverClient(maze);
+        setChanged();
+        notifyObservers("SolveGenerate");
     }
 
-    public Solution getSolution(Maze maze)
-    {
-        return model.createSolverClient(maze);
+    public Solution getSolution(){
+        return this.solution;
+    }
+    public Maze getMaze(){
+        return this.maze;
     }
 
-    Solution createSolverClient(Maze maze){
-        return this.model.createSolverClient(maze);
-    }
-    boolean validMove(int row, int col, int[][] maze){
-        return this.model.validMove(row,col,maze);
-    }
 }

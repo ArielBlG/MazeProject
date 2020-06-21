@@ -1,5 +1,6 @@
 package View;
 
+import Model.IModel;
 import ViewModel.MyViewModel;
 import algorithms.mazeGenerators.Maze;
 import javafx.fxml.FXML;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class MyViewController implements IView, Initializable {
+public class MyViewController implements IView, Initializable,Observer {
 
     @FXML
     public TextField rows_from_user;
@@ -47,7 +48,21 @@ public class MyViewController implements IView, Initializable {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        if(o instanceof MyViewModel) {
+            switch ((String) arg) {
+                case "MazeGenerate":
+                    this.maze = viewModel.getMaze();
+                    MazeDisplayController mazeDisplayController = null;
+                    try {
+                        mazeDisplayController = Main.changeToMazeScene().getController();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    mazeDisplayController.setAvatar(this.chars_and_pic.get(this.char_selection.getSelectedToggle()));
+                    mazeDisplayController.drawMaze(maze,false);
+                    break;
+            }
+        }
     }
 
     @Override
@@ -69,15 +84,20 @@ public class MyViewController implements IView, Initializable {
             cols = 10;
         }
 
-        this.maze = this.viewModel.generateMaze(rows,cols);
-        MazeDisplayController mazeDisplayController = Main.changeToMazeScene().getController();
-        mazeDisplayController.setAvatar(this.chars_and_pic.get(this.char_selection.getSelectedToggle()));
-        mazeDisplayController.drawMaze(maze,false);
+        //this.maze = this.viewModel.generateMaze(rows,cols);
+        this.viewModel.generateMazeObserver(rows,cols);
+
+        //mazeDisplayController.drawMaze(maze,false);
     }
 
     @Override
     public void addViewModel(MyViewModel viewModel) {
         this.viewModel = viewModel;
+    }
+
+    @Override
+    public void exitProgram() {
+        Main.exitProgram();
     }
 
     public void changeViews(){
