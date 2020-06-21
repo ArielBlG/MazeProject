@@ -4,19 +4,27 @@ import ViewModel.MyViewModel;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.ASearchingAlgorithm;
 import algorithms.search.Solution;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.stage.Screen;
+import javafx.util.Duration;
 
 import javax.sound.sampled.Clip;
 import java.io.IOException;
+import java.sql.Time;
 import java.util.Observable;
 
 public class MazeDisplayController implements IView {
@@ -24,6 +32,7 @@ public class MazeDisplayController implements IView {
     public MazeDisplay mazeDisplay;
     private Solution solution;
     private MyViewModel myViewModel;
+    private Timeline timeline = new Timeline();
 
 
     StringProperty update_player_position_row = new SimpleStringProperty();
@@ -133,5 +142,43 @@ public class MazeDisplayController implements IView {
 
     public void setAvatar(String avatar) {
         this.mazeDisplay.setAvatar(avatar);
+    }
+
+    public void zoom(Node node, double factor, double x, double y) {
+        // determine scale
+        double oldScale = node.getScaleX();
+        double scale = oldScale * factor;
+        double f = (scale / oldScale) - 1;
+        // determine offset that we will have to move the node
+        Bounds bounds = node.localToScene(node.getBoundsInLocal());
+        double dx = (x - (bounds.getWidth() / 2 + bounds.getMinX()));
+        double dy = (y - (bounds.getHeight() / 2 + bounds.getMinY()));
+        // timeline that scales and moves the node
+
+        timeline.getKeyFrames().clear();
+        timeline.getKeyFrames().addAll(
+                new KeyFrame(Duration.millis(100), new KeyValue(node.translateXProperty(), node.getTranslateX() - f * dx)),
+                new KeyFrame(Duration.millis(100), new KeyValue(node.translateYProperty(), node.getTranslateY() - f * dy)),
+                new KeyFrame(Duration.millis(100), new KeyValue(node.scaleXProperty(), scale)),
+                new KeyFrame(Duration.millis(100), new KeyValue(node.scaleYProperty(), scale))
+        );
+        timeline.play();
+    }
+
+    public void Zoom(ScrollEvent event) {
+        double m_zoom;
+        if (event.isControlDown()) {
+            m_zoom = 1.5;
+            if (event.getDeltaY() > 0) {
+                m_zoom = 1.1*m_zoom;
+
+            } else if (event.getDeltaY() < 0) {
+                m_zoom = 1.1/ m_zoom;
+            }
+            zoom(mazeDisplay, m_zoom, event.getSceneX(), event.getSceneY());
+            mazeDisplay.setScaleX(mazeDisplay.getScaleX() * m_zoom);
+            mazeDisplay.setScaleY(mazeDisplay.getScaleY() * m_zoom);
+            event.consume();// event handling from the root
+        }
     }
 }

@@ -7,9 +7,8 @@ import javafx.beans.Observable;
 import java.net.UnknownHostException;
 
 public interface IModel extends Observable {
-    Maze generateMaze(int rows, int cols);
-    Solution getSolution(Maze maze);
     Maze createGeneratorClient(int row, int cols) throws UnknownHostException;
-    public Solution createSolverClient(Maze maze);
+    Solution createSolverClient(Maze maze);
+    boolean validMove(int row, int col, int[][] maze);
 
 }

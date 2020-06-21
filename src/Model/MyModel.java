@@ -26,22 +26,8 @@ public class MyModel implements IModel {
 
     }
 
-    @Override
-    public Maze generateMaze(int rows, int cols) {
-        if( this.myMazeGenerator == null)
-        {
-            this.myMazeGenerator = new MyMazeGenerator();
-        }
-        return myMazeGenerator.generate(rows,cols);
-    }
 
     @Override
-    public Solution getSolution(Maze maze) {
-        if(this.solver == null)
-            this.solver = new BestFirstSearch();
-        return this.solver.solve(new SearchableMaze(maze));
-    }
-
     public Maze createGeneratorClient(int row, int cols) throws UnknownHostException {
         GenerateMazeClient generateMazeClient = new GenerateMazeClient(row,cols);
         Client client = new Client(InetAddress.getLocalHost(), 5400,generateMazeClient);
@@ -50,6 +36,7 @@ public class MyModel implements IModel {
         return this.maze;
     }
 
+    @Override
     public Solution createSolverClient(Maze maze){
         GenerateSolutionClient generateSolutionClient = new GenerateSolutionClient(this.maze);
         Client client = null;
@@ -60,5 +47,10 @@ public class MyModel implements IModel {
         }
         client.communicateWithServer();
         return generateSolutionClient.getMazeSolution();
+    }
+
+    @Override
+    public boolean validMove(int row, int col, int[][] maze){
+        return   row < maze.length && row >= 0 && col < maze[0].length && col >= 0 && maze[row][col] != 1;
     }
 }

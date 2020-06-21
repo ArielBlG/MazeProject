@@ -34,4 +34,11 @@ public class MyViewModel extends Observable implements Observer {
     {
         return model.createSolverClient(maze);
     }
+
+    Solution createSolverClient(Maze maze){
+        return this.model.createSolverClient(maze);
+    }
+    boolean validMove(int row, int col, int[][] maze){
+        return this.model.validMove(row,col,maze);
+    }
 }
