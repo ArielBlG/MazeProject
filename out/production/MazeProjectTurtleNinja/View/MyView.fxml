@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<BorderPane fx:id="mainPane" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
+    <center>
+        <VBox alignment="CENTER" >
+            <children>
+                <GridPane alignment="CENTER" vgap="10">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="20"/>
+                        <ColumnConstraints percentWidth="30"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                    </rowConstraints>
+                    <children>
+                        <Label alignment="CENTER" text="Generate New Maze" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0">
+                            <font>
+                                <Font name="Jokerman" size="20.0" />
+                            </font>
+                            <textFill>
+                                <LinearGradient endX="1.0" endY="0.7476190476190476" startX="0.5142857142857142" startY="0.5095238095238095">
+                                    <stops>
+                                        <Stop color="#8a2e2e" />
+                                        <Stop color="#161f5e" offset="1.0" />
+                                    </stops>
+                                </LinearGradient>
+                            </textFill></Label>
+                        <Label text="Enter rows" GridPane.rowIndex="1" alignment="CENTER"/>
+                        <Label text="Enter Cols" GridPane.rowIndex="2" />
+                        <TextField fx:id="rows_from_user" promptText="Default 10" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="cols_from_user" promptText="Default 10" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <GridPane GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3" alignment="CENTER" hgap="35" stylesheets="@./style.css" styleClass="avatarTable">
+                            <rowConstraints>
+                                <RowConstraints fx:id="char_row" prefHeight="${(mainPane.height)*0.1}"/>
+                                <RowConstraints/>
+                                <RowConstraints/>
+                            </rowConstraints>
+                            <columnConstraints>
+                                <ColumnConstraints/>
+                                <ColumnConstraints/>
+                                <ColumnConstraints/>
+                                <ColumnConstraints/>
+                                <ColumnConstraints/>
+                                <ColumnConstraints/>
+                            </columnConstraints>
+                            <children>
+                                <ImageView GridPane.rowIndex="0" GridPane.columnIndex="0" fitHeight="${char_row.prefHeight}" preserveRatio="true">
+                                    <image>
+                                        <Image url="/Resources/Images/Characters/april-o-neil.png"/>
+                                    </image>
+                                </ImageView>
+                                <ImageView GridPane.rowIndex="0" GridPane.columnIndex="1" fitHeight="${char_row.prefHeight}" preserveRatio="true">
+                                    <image>
+                                        <Image url="/Resources/Images/Characters/donatello.png"/>
+                                    </image>
+                                </ImageView>
+                                <ImageView GridPane.rowIndex="0" GridPane.columnIndex="2" fitHeight="${char_row.prefHeight}" preserveRatio="true">
+                                    <image>
+                                        <Image url="/Resources/Images/Characters/leonardo.png"/>
+                                    </image>
+                                </ImageView>
+                                <ImageView GridPane.rowIndex="0" GridPane.columnIndex="3" fitHeight="${char_row.prefHeight}" preserveRatio="true">
+                                    <image>
+                                        <Image url="/Resources/Images/Characters/michelangelo.png"/>
+                                    </image>
+                                </ImageView>
+                                <ImageView GridPane.rowIndex="0" GridPane.columnIndex="4" fitHeight="${char_row.prefHeight}" preserveRatio="true">
+                                    <image>
+                                        <Image url="/Resources/Images/Characters/raphael.png"/>
+                                    </image>
+                                </ImageView>
+                                <ImageView GridPane.rowIndex="0" GridPane.columnIndex="5" fitHeight="${char_row.prefHeight}" preserveRatio="true">
+                                    <image>
+                                        <Image url="/Resources/Images/Characters/splinter.png"/>
+                                    </image>
+                                </ImageView>
+
+                                <RadioButton fx:id="char_april_radio" GridPane.columnIndex="0" GridPane.rowIndex="1" selected="true" GridPane.halignment="CENTER"/>
+                                <RadioButton fx:id="char_donatello_radio" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.halignment="CENTER"/>
+                                <RadioButton fx:id="char_leonardo_radio" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.halignment="CENTER"/>
+                                <RadioButton fx:id="char_michelangelo_radio" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.halignment="CENTER"/>
+                                <RadioButton fx:id="char_raphael_radio" GridPane.columnIndex="4" GridPane.rowIndex="1" GridPane.halignment="CENTER"/>
+                                <RadioButton fx:id="char_splinter_radio" GridPane.columnIndex="5" GridPane.rowIndex="1" GridPane.halignment="CENTER"/>
+
+                                <Label text="April O'Niel" GridPane.rowIndex="2" GridPane.columnIndex="0" alignment="CENTER"/>
+                                <Label text="Donatello" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                                <Label text="Leonardo" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                                <Label text="Michelangelo" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+                                <Label text="Raphael" GridPane.rowIndex="2" GridPane.columnIndex="4"/>
+                                <Label text="Mr. Splinter" GridPane.rowIndex="2" GridPane.columnIndex="5"/>
+                            </children>
+                        </GridPane>
+                        <Button fx:id="btn_generate" onAction="#handleGenerateMaze" prefHeight="25.0" prefWidth="207.0" styleClass="generate_btn" stylesheets="@style.css" text="Generate" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+
+                    </children>
+                </GridPane>
+            </children>
+        </VBox>
+    </center>
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Close" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+</BorderPane>

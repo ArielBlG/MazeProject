@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<?import javafx.scene.layout.Pane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.HBox?>
+<?import View.MazeDisplay?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<BorderPane fx:id="mainPane" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" onKeyPressed="#keyPressed" fx:controller="View.MazeDisplayController" stylesheets="@./MazeUISidesStyles.css" styleClass="all-window">
+    <left>
+        <VBox prefWidth="${(mainPane.width)/10}" stylesheets="@./MazeUISidesStyles.css" styleClass="left-panel">
+            <children>
+                <GridPane>
+                    <columnConstraints>
+                        <ColumnConstraints/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                    </rowConstraints>
+                    <children>
+                        <Label text="Player Row" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="location_lbl"/>
+                        <Label text="Player Col" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    </children>
+                </GridPane>
+            </children>
+        </VBox>
+    </left>
+    <right>
+        <VBox>
+            <children>
+                <GridPane>
+                    <columnConstraints>
+                        <ColumnConstraints prefWidth="${(mainPane.width)/20}"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                    </rowConstraints>
+                    <children>
+
+                    </children>
+                </GridPane>
+            </children>
+        </VBox>
+    </right>
+    <top>
+        <HBox>
+            <children>
+                <GridPane BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                        <ColumnConstraints/>
+                        <ColumnConstraints/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints prefHeight="${(mainPane.height)/8}"/>
+                    </rowConstraints>
+                    <children>
+                    </children>
+                </GridPane>
+            </children>
+        </HBox>
+    </top>
+    <bottom>
+        <HBox>
+            <children>
+                <GridPane BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                        <ColumnConstraints/>
+                        <ColumnConstraints/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints prefHeight="${(mainPane.height)/8}"/>
+                    </rowConstraints>
+                    <children>
+                        <Button onAction="#changeViews" text="Main Menu" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                        <Button onAction="#showSolution" text="Hint" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                    </children>
+                </GridPane>
+            </children>
+        </HBox>
+    </bottom>
+    <center>
+        <Pane fx:id="pane" BorderPane.alignment="CENTER" stylesheets="@./style.css" styleClass="Pane">
+            <children>
+                <MazeDisplay fx:id="mazeDisplay" wallImagesFolder="./src/Resources/Images/Walls" width="${pane.width}" height="${pane.height}"  />
+            </children>
+            <padding>
+                <Insets bottom="100.0" left="100.0" right="100.0" top="100.0" />
+            </padding>
+        </Pane>
+    </center>
+</BorderPane>

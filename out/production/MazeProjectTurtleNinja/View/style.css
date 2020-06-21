@@ -1,0 +1,25 @@
+.Pane{
+    -fx-background-image: url("/Resources/Images/Background/waves.gif");
+    -fx-border-color: #0f3443;
+}
+
+RadioButton{
+    -fx-text-overrun: leading-ellipsis;
+
+}
+
+.generate_btn{
+    -fx-background-color: coral;
+    -fx-border-radius: 15px;
+    -fx-border-width: 1px;
+    -fx-border-color: #0f3443;
+    -fx-background-radius: 15px;
+    -fx-font-weight: bold;
+}
+
+.generate_btn:hover{
+    -fx-text-fill: whitesmoke;
+    -fx-border-width: 3px;
+    -fx-border-color: whitesmoke;
+    -fx-font-weight: bolder;
+}

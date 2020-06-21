@@ -1,0 +1,13 @@
+.location_lbl{
+    -fx-font-weight: bold;
+    -fx-font-size: 125%;
+}
+
+.left-panel{
+    -fx-background-color: lightblue;
+    -fx-border-color: #0f3443;
+}
+
+.all-window{
+    -fx-background-color: radial-gradient(radius 50%, #B2FEFA, #0ED2F7);
+}
